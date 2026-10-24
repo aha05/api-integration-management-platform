@@ -36,6 +36,8 @@ The platform aims to help developers and businesses build reliable integrations 
 | Docker | Containerization |
 
 ### Frontend
+| Technology | Purpose |
+|---|---|
 | React | User interface development |
 | TypeScript | Type-safe JavaScript |
 | Tailwind CSS | UI styling |
