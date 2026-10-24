@@ -1,1 +1,11 @@
-spring.application.name=api-integration-management-platform
+spring:
+  application:
+    name: integration
+  profiles:
+    active: "qa"
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/api_bridge?createDatabaseIfNotExist=true
+    username: ${SCHEMA_USERNAME}
+    password: ${SCHEMA_PASSWORD}
+  jpa:
+    show-sql: true
