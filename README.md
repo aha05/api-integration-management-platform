@@ -18,9 +18,11 @@ The platform aims to help developers and businesses build reliable integrations 
 - **Webhook Management** — Receive and process incoming webhook events.
 - **API Documentation** — Provide interactive API documentation through OpenAPI and Swagger UI.
 - **Security** — Protect platform endpoints with authentication and authorization.
+- **Web Dashboard** — Provide a frontend for managing integrations and monitoring API activity.
 
 
 ## Technology Stack
+### backend
 
 | Technology | Purpose |
 |---|---|
@@ -33,6 +35,11 @@ The platform aims to help developers and businesses build reliable integrations 
 | JUnit and Mockito | Automated testing |
 | Docker | Containerization |
 
+### Frontend
+| React | User interface development |
+| TypeScript | Type-safe JavaScript |
+| Tailwind CSS | UI styling |
+
 ## Getting Started
 
 ### Prerequisites
@@ -40,6 +47,7 @@ The platform aims to help developers and businesses build reliable integrations 
 - Java 17 or later
 - Maven
 - MySQL
+- Node.js and npm
 - Git
 
 ### Clone the Repository
