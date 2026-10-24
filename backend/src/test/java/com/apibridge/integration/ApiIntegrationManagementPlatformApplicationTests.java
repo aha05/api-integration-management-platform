@@ -1,4 +1,4 @@
-package com.bridge.api_integration_management_platform;
+package com.apibridge.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
