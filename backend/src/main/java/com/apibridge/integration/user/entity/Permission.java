@@ -4,7 +4,9 @@ import com.apibridge.integration.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +22,7 @@ public class Permission extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "permission")
+    private List<RolePermission> roles = new ArrayList<>();
 }

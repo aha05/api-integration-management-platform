@@ -4,7 +4,9 @@ import com.apibridge.integration.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,4 +28,8 @@ public class User extends BaseEntity {
 
     @Column(name = "active")
     private boolean active;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<UserRole> roles = new ArrayList<>();
 }
