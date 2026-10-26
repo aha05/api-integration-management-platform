@@ -4,8 +4,6 @@ import com.apibridge.integration.user.dto.ChangePasswordRequest;
 import com.apibridge.integration.user.dto.UpdateUserRequest;
 import com.apibridge.integration.user.dto.UserRequest;
 import com.apibridge.integration.user.dto.UserResponse;
-import com.apibridge.integration.user.mapper.UserMapper;
-import com.apibridge.integration.user.repository.UserRepository;
 import com.apibridge.integration.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +46,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public UserResponse update(
             @PathVariable(name = "id") Long id,
-            UpdateUserRequest request
+            @Valid @RequestBody UpdateUserRequest request
     ) {
         return userService.update(id, request);
     }
@@ -60,11 +58,10 @@ public class UserController {
     }
 
     @PostMapping("/{id}/change-password")
-    public ResponseEntity<Void> changePassword(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassword(
             @PathVariable Long id,
-            ChangePasswordRequest request){
-
+            @Valid @RequestBody ChangePasswordRequest request){
         userService.changePassword(id, request);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

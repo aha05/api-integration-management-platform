@@ -1,5 +1,6 @@
 package com.apibridge.integration.user.service;
 
+import com.apibridge.integration.common.ResourceAlreadyExistException;
 import com.apibridge.integration.common.ResourceNotFoundException;
 import com.apibridge.integration.common.UnauthorizeAccessException;
 import com.apibridge.integration.user.dto.ChangePasswordRequest;
@@ -38,13 +39,12 @@ public class UserService {
     }
 
     public UserResponse registerUser(UserRequest request) {
+       if(userRepository.existsByEmail(request.getEmail())){
+           throw new ResourceAlreadyExistException("User", "email", request.getEmail());
+       }
 
-      userRepository.existsByEmail(request.getEmail()).orElseThrow(
-              () -> new ResourceNotFoundException("User", "email", request.getEmail())
-      );
-        // assigning role inside registerUser() method
         var user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // this will hash the password
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
         return userMapper.toDto(user);
