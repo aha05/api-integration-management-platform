@@ -19,4 +19,9 @@ public class RolePermissionId implements Serializable {
 
     @Column(name = "permission_id")
     private Long permissionId;
+
+    @Override
+    public String toString() {
+        return "RolePermissionId {roleId=" + roleId + ", permissionId=" + permissionId + "}";
+    }
 }

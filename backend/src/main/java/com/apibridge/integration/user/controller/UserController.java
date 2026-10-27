@@ -64,4 +64,21 @@ public class UserController {
             @Valid @RequestBody ChangePasswordRequest request){
         userService.changePassword(id, request);
     }
+
+    @GetMapping("/{userId}/roles/{roleId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void assignRole(
+            @PathVariable(name = "userId") Long userId,
+            @PathVariable(name = "roleId") Long roleId
+            ){
+        userService.assignRole(userId, roleId);
+    }
+
+    @DeleteMapping("/{userId}/roles/{roleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void detachRole(
+            @PathVariable(name = "userId") Long userId,
+            @PathVariable(name = "roleId") Long roleId){
+        userService.detachRole(userId, roleId);
+    }
 }

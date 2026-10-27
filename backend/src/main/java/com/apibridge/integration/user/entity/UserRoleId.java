@@ -19,4 +19,9 @@ public class UserRoleId implements Serializable {
 
     @Column(name = "role_id")
     private Long roleId;
+
+    @Override
+    public String toString() {
+        return "UserRoleId {userId=" + userId + ", roleId=" + roleId + "}";
+    }
 }

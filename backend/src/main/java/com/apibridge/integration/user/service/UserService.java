@@ -7,8 +7,13 @@ import com.apibridge.integration.user.dto.ChangePasswordRequest;
 import com.apibridge.integration.user.dto.UpdateUserRequest;
 import com.apibridge.integration.user.dto.UserRequest;
 import com.apibridge.integration.user.dto.UserResponse;
+import com.apibridge.integration.user.entity.UserRole;
+import com.apibridge.integration.user.entity.UserRoleId;
 import com.apibridge.integration.user.mapper.UserMapper;
+import com.apibridge.integration.user.repository.RoleRepository;
 import com.apibridge.integration.user.repository.UserRepository;
+import com.apibridge.integration.user.repository.UserRoleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -78,5 +85,43 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void assignRole(Long userId, Long roleId) {
+
+        var user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "userId", userId)
+        );
+
+        var role = roleRepository.findById(roleId).orElseThrow(
+                () -> new ResourceNotFoundException("Role", "roleId", roleId)
+        );
+
+        UserRoleId id = new UserRoleId(userId, roleId);
+
+        if (userRoleRepository.existsById(id)) {
+            throw new ResourceAlreadyExistException(
+                    "UserRole", "id", id
+            );
+        }
+
+        UserRole userRole = new UserRole();
+        userRole.setId(id);
+        userRole.setUser(user);
+        userRole.setRole(role);
+
+        userRoleRepository.save(userRole);
+    }
+
+    @Transactional
+    public void detachRole(Long userId, Long roleId) {
+        UserRoleId id = new UserRoleId(userId, roleId);
+
+        UserRole userRole = userRoleRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("UserRole", "id", id)
+        );
+
+        userRoleRepository.delete(userRole);
     }
 }

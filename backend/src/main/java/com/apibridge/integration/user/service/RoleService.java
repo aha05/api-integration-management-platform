@@ -3,8 +3,13 @@ package com.apibridge.integration.user.service;
 import com.apibridge.integration.common.ResourceAlreadyExistException;
 import com.apibridge.integration.common.ResourceNotFoundException;
 import com.apibridge.integration.user.dto.RoleDto;
+import com.apibridge.integration.user.entity.RolePermission;
+import com.apibridge.integration.user.entity.RolePermissionId;
 import com.apibridge.integration.user.mapper.RoleMapper;
+import com.apibridge.integration.user.repository.PermissionRepository;
+import com.apibridge.integration.user.repository.RolePermissionRepository;
 import com.apibridge.integration.user.repository.RoleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
+    private final RolePermissionRepository rolePermissionRepository;
     private final RoleMapper roleMapper;
 
     public List<RoleDto> getAllRoless() {
@@ -51,9 +58,47 @@ public class RoleService {
     }
 
     public void delete(Long roleId) {
-        var user = roleRepository.findById(roleId).orElseThrow(
+        var role = roleRepository.findById(roleId).orElseThrow(
                 () -> new ResourceNotFoundException("Role", "roleId", roleId)
         );
-        roleRepository.delete(user);
+        roleRepository.delete(role);
+    }
+
+    @Transactional
+    public void assignRole(Long roleId, Long permissionId) {
+
+        var role = roleRepository.findById(roleId).orElseThrow(
+                () -> new ResourceNotFoundException("Role", "roleId", roleId)
+        );
+
+        var permission = permissionRepository.findById(permissionId).orElseThrow(
+                () -> new ResourceNotFoundException("Permission", "permissionId", permissionId)
+        );
+
+        RolePermissionId id = new RolePermissionId(roleId, permissionId);
+
+        if (rolePermissionRepository.existsById(id)) {
+            throw new ResourceAlreadyExistException(
+                    "RolePermission", "id", id
+            );
+        }
+
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setId(id);
+        rolePermission.setRole(role);
+        rolePermission.setPermission(permission);
+
+        rolePermissionRepository.save(rolePermission);
+    }
+
+    @Transactional
+    public void detachRole(Long roleId, Long permissionId) {
+        RolePermissionId id = new RolePermissionId(roleId, permissionId);
+
+        RolePermission rolePermission = rolePermissionRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("RolePermission", "id", id)
+        );
+
+        rolePermissionRepository.delete(rolePermission);
     }
 }

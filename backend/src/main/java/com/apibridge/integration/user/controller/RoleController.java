@@ -53,4 +53,21 @@ public class RoleController {
     public void delete(@PathVariable Long id){
         roleService.delete(id);
     }
+
+    @GetMapping("/{roleId}/permissions/{permissionId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void assignRole(
+            @PathVariable(name = "roleId") Long roleId,
+            @PathVariable(name = "permissionId") Long permissionId
+    ){
+        roleService.assignRole(roleId, permissionId);
+    }
+
+    @DeleteMapping("/{roleId}/permissions/{permissionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void detachRole(
+            @PathVariable(name = "roleId") Long roleId,
+            @PathVariable(name = "permissionId") Long permissionId){
+        roleService.detachRole(roleId, permissionId);
+    }
 }
