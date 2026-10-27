@@ -13,6 +13,11 @@ public class RoleMapperImpl implements RoleMapper{
                 .id(role.getId())
                 .name(role.getName())
                 .description(role.getDescription())
+                .permissions( role.getPermissions()
+                        .stream()
+                        .map(rolePermission ->
+                                rolePermission.getPermission().getName())
+                        .toList())
                 .build();
     }
 

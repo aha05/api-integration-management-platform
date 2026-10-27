@@ -15,6 +15,10 @@ public class UserMapperImpl implements UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .roles( user.getRoles()
+                        .stream()
+                        .map(userRole -> userRole.getRole().getName())
+                        .toList())
                 .active(user.isActive())
                 .build();
     }
