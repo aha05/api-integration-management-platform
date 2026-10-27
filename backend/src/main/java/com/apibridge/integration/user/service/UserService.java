@@ -9,7 +9,6 @@ import com.apibridge.integration.user.dto.UserRequest;
 import com.apibridge.integration.user.dto.UserResponse;
 import com.apibridge.integration.user.mapper.UserMapper;
 import com.apibridge.integration.user.repository.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
