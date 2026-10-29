@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/permission")
@@ -25,5 +26,11 @@ public class PermissionController {
     @ResponseStatus(HttpStatus.OK)
     public PermissionDto getPermissionById(@PathVariable Long id) {
         return permissionService.getPermissionById(id);
+    }
+
+    @GetMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<String> getPermissionByUserId(@PathVariable Long id) {
+        return permissionService.getUserPermissions(id);
     }
 }

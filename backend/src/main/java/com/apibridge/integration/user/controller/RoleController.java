@@ -54,7 +54,7 @@ public class RoleController {
         roleService.delete(id);
     }
 
-    @GetMapping("/{roleId}/permissions/{permissionId}")
+    @PostMapping("/{roleId}/permissions/{permissionId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void assignRole(
             @PathVariable(name = "roleId") Long roleId,

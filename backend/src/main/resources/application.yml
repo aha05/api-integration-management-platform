@@ -1,6 +1,10 @@
 spring:
   application:
     name: apibridge
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 7200 # 2h
+    refreshTokenExpiration: 604800 # 7d
   profiles:
     active: "qa"
   datasource:
@@ -9,7 +13,3 @@ spring:
     password: ${SCHEMA_PASSWORD}
   jpa:
     show-sql: true
-  security:
-    user:
-      name: admin
-      password: admin

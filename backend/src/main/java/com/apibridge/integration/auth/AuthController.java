@@ -34,22 +34,22 @@ public class AuthController {
     private final UserMapper userMapper;
     private final JwtConfig jwtConfig;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(
-            @Valid @RequestBody UserRequest request,
-            UriComponentsBuilder uriBuilder) {
-        if(userRepository.existsByEmail(request.getEmail())){
-            throw new ResourceAlreadyExistException("User", "email", request.getEmail());
-        }
-
-        var user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepository.save(user);
-
-        var userDto = userMapper.toDto(user);
-        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(userDto);
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<UserResponse> registerUser(
+//            @Valid @RequestBody UserRequest request,
+//            UriComponentsBuilder uriBuilder) {
+//        if(userRepository.existsByEmail(request.getEmail())){
+//            throw new ResourceAlreadyExistException("User", "email", request.getEmail());
+//        }
+//
+//        var user = userMapper.toEntity(request);
+//        user.setPassword(passwordEncoder.encode(request.getPassword()));
+//        userRepository.save(user);
+//
+//        var userDto = userMapper.toDto(user);
+//        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
+//        return ResponseEntity.created(uri).body(userDto);
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(

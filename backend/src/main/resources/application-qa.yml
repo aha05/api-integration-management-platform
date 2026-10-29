@@ -1,4 +1,10 @@
 spring:
+  application:
+    name: apibridge
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 7200 # 2h
+    refreshTokenExpiration: 604800 # 7d
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/api_bridge?createDatabaseIfNotExist=true
     username: ${SCHEMA_USERNAME}

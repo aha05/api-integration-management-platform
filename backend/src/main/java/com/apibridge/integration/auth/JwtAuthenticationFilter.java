@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
+    private final UserAuthoritiesService userAuthoritiesService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -37,11 +38,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
         var authentication = new UsernamePasswordAuthenticationToken(
                 jwt.getUserId(),
                 null,
-                List.of(new SimpleGrantedAuthority("ROLE_" + jwt.getRole()))
+                userAuthoritiesService.loadAuthorities(jwt.getUserId(), jwt.getRole())
         );
 
         authentication.setDetails(

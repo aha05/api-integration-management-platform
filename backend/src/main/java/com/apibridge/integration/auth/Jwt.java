@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -21,8 +22,8 @@ public class Jwt {
         return Long.valueOf(claims.getSubject());
     }
 
-    public String getRole() {
-        return claims.get("roles", String.class);
+    public List<String> getRole() {
+        return claims.get("roles", List.class);
     }
 
     public String toString(){
