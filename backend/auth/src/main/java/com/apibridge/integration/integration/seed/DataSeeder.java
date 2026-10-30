@@ -2,8 +2,6 @@ package com.apibridge.integration.integration.seed;
 
 import com.apibridge.integration.integration.user.entity.*;
 import com.apibridge.integration.integration.user.repository.*;
-import com.apibridge.integration.user.entity.*;
-import com.apibridge.integration.user.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
