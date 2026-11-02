@@ -29,4 +29,7 @@ public class Integration extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private IntegrationStatus status;
+
+    @Column(name="user_id",nullable = false)
+    private Long userId;
 }

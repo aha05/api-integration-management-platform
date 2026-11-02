@@ -22,6 +22,10 @@ public class Jwt {
         return Long.valueOf(claims.getSubject());
     }
 
+    public String getEmail() {
+        return claims.get("email", String.class);
+    }
+
     public List<String> getRole() {
         return claims.get("roles", List.class);
     }

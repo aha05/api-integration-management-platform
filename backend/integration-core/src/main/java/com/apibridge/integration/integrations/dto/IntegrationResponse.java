@@ -14,4 +14,5 @@ public class IntegrationResponse {
     private String description;
     private String baseUrl;
     private IntegrationStatus status;
+    private Long userId;
 }

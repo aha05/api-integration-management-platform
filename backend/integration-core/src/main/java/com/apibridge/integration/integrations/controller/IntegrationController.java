@@ -1,15 +1,12 @@
 package com.apibridge.integration.integrations.controller;
-
-
+import com.apibridge.integration.integration.auth.UserPrincipal;
 import com.apibridge.integration.integrations.dto.IntegrationRequest;
 import com.apibridge.integration.integrations.dto.IntegrationResponse;
 import com.apibridge.integration.integrations.dto.UpdateIntegrationRequest;
 import com.apibridge.integration.integrations.service.IntegrationService;
-import com.sun.security.auth.UserPrincipal;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,78 +21,68 @@ public class IntegrationController {
     private final IntegrationService integrationService;
 
     @PostMapping
-    public ResponseEntity<IntegrationResponse> create(
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public IntegrationResponse create(
             @Valid @RequestBody IntegrationRequest request,
             @AuthenticationPrincipal UserPrincipal principal
     ) {
 
-        IntegrationResponse response = integrationService.create(
+        return integrationService.create(
                 request,
                 principal.getId()
         );
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<IntegrationResponse>> getAll(
+    @ResponseStatus(HttpStatus.OK)
+    public List<IntegrationResponse> getAll(
             @AuthenticationPrincipal UserPrincipal principal
     ) {
-
-        return ResponseEntity.ok(
-                integrationService.getAll(principal.getId())
-        );
+        return integrationService.getAll(principal.getId());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<IntegrationResponse> getById(
+    @ResponseStatus(HttpStatus.OK)
+    public IntegrationResponse getById(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal principal
     ) {
 
-        return ResponseEntity.ok(
-                integrationService.getById(id, principal.getId())
-        );
+        return integrationService.getById(id, principal.getId());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IntegrationResponse> update(
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public IntegrationResponse update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateIntegrationRequest request,
             @AuthenticationPrincipal UserPrincipal principal
     ) {
 
-        return ResponseEntity.ok(
-                integrationService.update(
+        return integrationService.update(
                         id, request, principal.getId()
-                )
-        );
+                );
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<IntegrationResponse> updateStatus(
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public IntegrationResponse updateStatus(
             @PathVariable Long id,
             @RequestParam boolean active,
             @AuthenticationPrincipal UserPrincipal principal
     ) {
 
-        return ResponseEntity.ok(
-                integrationService.updateStatus(
+        return integrationService.updateStatus(
                         id, active, principal.getId()
-                )
-        );
+                );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal principal
     ) {
-
         integrationService.delete(id, principal.getId());
-
-        return ResponseEntity.noContent().build();
     }
 }

@@ -6,6 +6,7 @@ CREATE TABLE integrations
     description TEXT,
     base_url VARCHAR(500) NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    user_id BIGINT NOT NULL,
     created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by   VARCHAR(100),
     updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -35,11 +35,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        var authorities = userAuthoritiesService.loadAuthorities(
+                jwt.getUserId(),
+                jwt.getRole()
+        );
+
+        var principal = new UserPrincipal(
+                jwt.getUserId(),
+                jwt.getEmail(),
+                authorities
+        );
 
         var authentication = new UsernamePasswordAuthenticationToken(
                 jwt.getUserId(),
                 null,
-                userAuthoritiesService.loadAuthorities(jwt.getUserId(), jwt.getRole())
+                authorities
         );
 
         authentication.setDetails(
