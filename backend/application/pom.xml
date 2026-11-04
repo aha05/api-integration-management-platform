@@ -24,6 +24,11 @@
             <artifactId>auth</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.apibridge</groupId>
+            <artifactId>integration-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
